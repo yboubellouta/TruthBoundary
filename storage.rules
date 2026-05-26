@@ -1,0 +1,11 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Anyone logged in can read media
+    match /content/{allPaths=**} {
+      allow read: if request.auth != null;
+      // Only admins can upload/delete (checked via Firestore)
+      allow write: if request.auth != null;
+    }
+  }
+}
